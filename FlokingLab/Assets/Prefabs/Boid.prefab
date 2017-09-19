@@ -37,8 +37,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125782499972964}
-  m_LocalRotation: {x: -0, y: -0, z: -0.15291831, w: 0.9882389}
-  m_LocalPosition: {x: 0, y: 5.2, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.124976814, w: 0.9921597}
+  m_LocalPosition: {x: -9.6, y: 5.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -59,7 +59,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: cd22cd91e5412d24eb8983bf46ae6705, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -78,7 +78,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 14.98
 --- !u!61 &61287039365090264
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -118,6 +118,8 @@ MonoBehaviour:
   affectedBy: []
   separationDistance: 10
   maxSpeed: 10
+  FloakPrefab: {fileID: 1282281684354062, guid: 37701c43ef1187f42bd8fbfb30952e1e,
+    type: 2}
 --- !u!212 &212630779035330250
 SpriteRenderer:
   m_ObjectHideFlags: 1

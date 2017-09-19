@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Boid
   - Obstacle
+  - Flock
   layers:
   - Default
   - TransparentFX

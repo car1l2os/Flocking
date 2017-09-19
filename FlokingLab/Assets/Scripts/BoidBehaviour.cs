@@ -12,6 +12,8 @@ public class BoidBehaviour : MonoBehaviour {
     public float separationDistance = 10.0f;
     public float maxSpeed = 10.0f;
 
+    [Header("Prefabs")]
+    public GameObject FloakPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -29,13 +31,29 @@ public class BoidBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        GetInput(); //Doesn't really accurate
         FaceMovement();
 
         //Flocking
         Separation();
         Aligment();
         Cohesion();
-	}
+
+
+    }
+
+    private void GetInput()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 click = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 destination = new Vector2(click.x, click.y);
+
+            Vector2 newOne = (destination - new Vector2(transform.position.x, transform.position.y));
+
+            rb.AddForce(newOne);
+        }
+    }
 
     private void FaceMovement()
     {
@@ -108,4 +126,28 @@ public class BoidBehaviour : MonoBehaviour {
         if (other.gameObject.tag == "Boid" && other.isTrigger)
             affectedBy.Remove(other.transform.gameObject);
     }
+
+    /*private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Boid" && other.isTrigger && transform.parent != null)
+        {
+            if (GetComponentInParent<FlockBehaviour>().flockMembers.Contains(other.gameObject))
+            {
+                GetComponentInParent<FlockBehaviour>().flockMembers.Add(other.gameObject);
+                other.gameObject.transform.parent = transform.parent;
+            }
+        }
+        else if(other.gameObject.tag == "Boid" && other.isTrigger && transform.parent == null)
+        {
+            GameObject floak = Instantiate(FloakPrefab);
+            transform.parent = floak.transform;
+
+            if (!floak.GetComponent<FlockBehaviour>().flockMembers.Contains(transform.gameObject))
+                floak.GetComponent<FlockBehaviour>().flockMembers.Add(transform.gameObject);
+
+            if (!floak.GetComponent<FlockBehaviour>().flockMembers.Contains(other.gameObject))
+                floak.GetComponent<FlockBehaviour>().flockMembers.Add(other.gameObject);
+        }
+
+    }*/
 }
