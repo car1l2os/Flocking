@@ -8,9 +8,18 @@ public class BoidBehaviour : MonoBehaviour {
     
     private Rigidbody2D rb;
     public List<GameObject> affectedBy;
+    private List<GameObject> inArea;
+    private Vector2 preOrbitingDirection;
+    private int ostacleLayer = 1 << 8;
 
+    [Header("Common variables")]
     public float separationDistance = 10.0f;
     public float maxSpeed = 10.0f;
+    public float minSpeed = 10.0f;
+
+    [Header("Obstacle avoiding")]
+    public float obstacleDetectionDistance = 50.0f;
+    public float maxAvoidForce = 50.0f;
 
     [Header("Prefabs")]
     public GameObject FloakPrefab;
@@ -19,13 +28,32 @@ public class BoidBehaviour : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         affectedBy = new List<GameObject>();
+        inArea = new List<GameObject>();
 	}
 
 
     void FixedUpdate()
     {
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed); //Max speed
+        if (rb.velocity.magnitude > maxSpeed)
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed); //Max speed
+        else if (rb.velocity.magnitude < minSpeed)
+            rb.velocity = rb.velocity.normalized * minSpeed; //No minimum clamp xd
+    }
 
+    private void CheckVisibles()
+    {
+        for(int i=inArea.Count-1;i>=0;i--)
+        {
+            if (Vector2.Angle(rb.velocity, inArea[i].transform.position - transform.position) > 60f)
+            {
+                affectedBy.Remove(inArea[i]);
+            }
+            else if(!affectedBy.Contains(inArea[i]))
+            {
+                affectedBy.Add(inArea[i]);
+            }
+        }
+        //angle = arccos((v · w) / (| v | · | w |));
     }
 
     // Update is called once per frame
@@ -33,14 +61,17 @@ public class BoidBehaviour : MonoBehaviour {
 
         GetInput(); //Doesn't really accurate
         FaceMovement();
+        CheckVisibles();
+
+        CheckObstacle();
 
         //Flocking
         Separation();
         Aligment();
         Cohesion();
-
-
     }
+
+
 
     private void GetInput()
     {
@@ -116,15 +147,36 @@ public class BoidBehaviour : MonoBehaviour {
         }
     }
 
+    private void CheckObstacle()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), rb.velocity, obstacleDetectionDistance, ostacleLayer);
+        if (hit)
+        {
+            //Debug.Log("Ha dado a un obstaculo");
+
+            Vector2 separationVector = new Vector2(transform.position.x - hit.transform.position.x, transform.position.y - hit.transform.position.y);
+            float scale = obstacleDetectionDistance / separationVector.magnitude;
+            rb.AddForce(separationVector.normalized * scale * maxAvoidForce);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Boid" && other.isTrigger)
+        {
+            inArea.Add(other.transform.gameObject);
             affectedBy.Add(other.transform.gameObject);
+        }
+            
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Boid" && other.isTrigger)
-            affectedBy.Remove(other.transform.gameObject);
+        {
+            inArea.Remove(other.transform.gameObject);
+            if (affectedBy.Contains(other.gameObject))
+                affectedBy.Remove(other.gameObject);
+        }
     }
 
     /*private void OnTriggerEnter2D(Collider2D other)

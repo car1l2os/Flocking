@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114409745195877822}
   - component: {fileID: 58575912555307624}
   - component: {fileID: 61287039365090264}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Boid
   m_TagString: Boid
   m_Icon: {fileID: 0}
@@ -37,13 +37,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125782499972964}
-  m_LocalRotation: {x: -0, y: -0, z: 0.124976814, w: 0.9921597}
-  m_LocalPosition: {x: -9.6, y: 5.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.4558173, w: 0.89007336}
+  m_LocalPosition: {x: 24.200489, y: -2.3431928, z: 0}
+  m_LocalScale: {x: 1, y: 0.4874998, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -17.592001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50489512941620342
 Rigidbody2D:
   serializedVersion: 4
@@ -78,14 +78,14 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 14.98
+  m_Radius: 15
 --- !u!61 &61287039365090264
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1125782499972964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -115,9 +115,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08e27898cf61c549882809a11b56e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectedBy: []
+  affectedBy:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   separationDistance: 10
   maxSpeed: 10
+  minSpeed: 10
+  obstacleDetectionDistance: 20
+  maxAvoidForce: 70
   FloakPrefab: {fileID: 1282281684354062, guid: 37701c43ef1187f42bd8fbfb30952e1e,
     type: 2}
 --- !u!212 &212630779035330250
