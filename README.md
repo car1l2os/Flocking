@@ -14,3 +14,6 @@ cohesion, seperation and alignment impulses)
   - If the user is not clicking, do a combination of separation, cohesion and alignment.
 - Cone-based vision detection algorithm using dot-product
 - Make the boid actively avoid steering into an obstacle.
+
+## Version
+Done in Unity 2017.1.1f1
