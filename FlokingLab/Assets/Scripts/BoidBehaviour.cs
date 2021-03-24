@@ -59,7 +59,7 @@ public class BoidBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        GetInput(); //Doesn't really accurate
+        GetInput(); 
         FaceMovement();
         CheckVisibles();
 
